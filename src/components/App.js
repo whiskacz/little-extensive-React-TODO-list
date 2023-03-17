@@ -5,6 +5,7 @@ import AddTask from './AddTask'
 
 
 class App extends Component {
+counter = 9;  
 state ={
   tasks: [
     { id: 1, text: "zrobić dobry uczynek", date: '2020-11-12', important: false, active: true, finishDate: null },
@@ -35,19 +36,39 @@ changeTaskStatus =(id) => {
     task.active = !task.active
     task.finishDate = new Date().getTime()
   }
-  
   this.setState({
     tasks
   })
+  
 }
 )
 }
+
+addTask=(text, date, important)=>{
+console.log("dodano task")
+const task ={ 
+  id : this.counter, 
+  text, 
+  date, 
+  important, 
+  active: true, 
+  finishDate: null
+}
+  this.counter++
+  console.log(task)
+  console.log(this.counter)
+  this.setState(prevState =>({
+    tasks: [...prevState.tasks, task]
+
+  }))
+  return true
+}
+
   render(){
   return (
     <div className="App">
-      TODO APP
-      <AddTask />
-      <TaskList tasks={this.state.tasks} change={this.changeTaskStatus} delete={this.deleteTask}/>
+      <AddTask addTask={this.addTask} />
+      <TaskList tasks={this.state.tasks} change={this.changeTaskStatus} delete={this.deleteTask} />
     </div>
   );
 }
